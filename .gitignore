@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+.vscode/
+
+# Do not commit data files
+data/*

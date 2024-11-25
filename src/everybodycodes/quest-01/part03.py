@@ -1,19 +1,14 @@
+from itertools import batched
+
 scores = {"A": 0, "B": 1, "C": 3, "D": 5, "x": 0}
 
 def parse(input_line:str) -> int:
     result = 0 
-    for idx in range(0, len(input_line), 3):
-        pair_1 = input_line[idx]
-        pair_2 = input_line[idx+1]
-        pair_3 = input_line[idx+2]
-        number_of_x = f"{pair_1}{pair_2}{pair_3}".count("x")
+    for creatures in batched(input_line, 3):
+        step_score = sum(scores[beast] for beast in creatures)
 
-        step_score = scores[pair_1]
-        step_score += scores[pair_2]
-        step_score += scores[pair_3]
-        if number_of_x == 2:
-            step_score += 0
-        elif number_of_x == 1:
+        number_of_x = creatures.count("x")
+        if number_of_x == 1:
             step_score += 2
         elif number_of_x == 0:
             step_score += 6
@@ -24,8 +19,13 @@ def parse(input_line:str) -> int:
 
 if __name__ == "__main__":
     with open("data/quest-01/part03.txt") as f:
-        line = f.readline()
+        line = f.readline().strip()
     print(parse(line))
+
+def test_data():
+    with open("data/quest-01/part03.txt") as f:
+        line = f.readline().strip()
+    assert parse(line) == 27491
 
 def test_example():
     assert parse("xBxAAABCDxCC") == 30

@@ -10,6 +10,3 @@ wheels/
 .venv
 
 .vscode/
-
-# Do not commit data files
-data/*
